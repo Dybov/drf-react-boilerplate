@@ -24,6 +24,7 @@ BASE_DIR = os.path.dirname(
 # Application definition
 
 INSTALLED_APPS = [
+    'baseauth',
     'rest_framework',
     'webpack_loader',
     'django.contrib.admin',
@@ -123,3 +124,5 @@ REST_FRAMEWORK = {
 }
 
 WEBPACK_STATS_DIR = os.path.dirname(BASE_DIR)
+
+AUTH_USER_MODEL = 'baseauth.BaseUser'

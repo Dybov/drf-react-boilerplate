@@ -5,7 +5,7 @@
 media/*
 
 # Temporary db (for development)
-*/db.sqlite3
+db.sqlite3*
 
 
 # React production bundles:
