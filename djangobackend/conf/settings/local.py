@@ -36,3 +36,12 @@ REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'].insert(
     0,
     'rest_framework.renderers.BrowsableAPIRenderer'
 )
+
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'bundles/',
+        'STATS_FILE': os.path.join(
+            WEBPACK_STATS_DIR, 'webpack-stats.dev.json'),
+    }
+}

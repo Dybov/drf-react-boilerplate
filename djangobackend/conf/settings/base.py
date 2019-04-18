@@ -25,6 +25,7 @@ BASE_DIR = os.path.dirname(
 
 INSTALLED_APPS = [
     'rest_framework',
+    'webpack_loader',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -120,3 +121,5 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
 }
+
+WEBPACK_STATS_DIR = os.path.dirname(BASE_DIR)
