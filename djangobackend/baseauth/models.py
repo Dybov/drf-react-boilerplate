@@ -17,6 +17,13 @@ def get_username_validator():
     return UnicodeUsernameValidator() if six.PY3 else ASCIIUsernameValidator()
 
 
+class CustomUserManager(UserManager):
+    @classmethod
+    def normalize_email(cls, email):
+        normalized = super().normalize_email(email)
+        return normalized.lower()
+
+
 class AbstactUser(AbstractBaseUser, PermissionsMixin):
     """
     An abstract base class implementing a fully featured User model with
@@ -41,7 +48,10 @@ class AbstactUser(AbstractBaseUser, PermissionsMixin):
     )
     first_name = models.CharField(_('first name'), max_length=30)
     last_name = models.CharField(_('last name'), max_length=30)
-    email = models.EmailField(_('email address'))
+    email = models.EmailField(
+        _('email address'),
+        unique=True,
+    )
     is_staff = models.BooleanField(
         _('staff status'),
         default=True,
@@ -59,7 +69,7 @@ class AbstactUser(AbstractBaseUser, PermissionsMixin):
     )
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
-    objects = UserManager()
+    objects = CustomUserManager()
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'username'
