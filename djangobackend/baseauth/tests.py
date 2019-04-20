@@ -5,14 +5,32 @@ from django.db import IntegrityError
 
 UserModel = get_user_model()
 
+TEST_EMAIL = 'email@email.email'
+
 
 class UserTestCase(TestCase):
+    def test_username_not_required(self):
+        user = UserModel.objects.create_user(
+            email=TEST_EMAIL,
+            password='Real Password',
+        )
+
+        self.assertTrue(user)
+
+    def test_username_assigned_email(self):
+        user = UserModel.objects.create_user(
+            email=TEST_EMAIL,
+            password='Real Password',
+        )
+
+        self.assertEqual(user.username, user.email)
+        self.assertEqual(user.username, TEST_EMAIL)
+
     def test_normalize_email_1part(self):
         email = 'Name.Surname@domain.com'
         normalized = 'name.surname@domain.com'
 
         user = UserModel.objects.create_user(
-            username='username',
             email=email,
             password='Unreal Password #1',
         )
@@ -25,7 +43,6 @@ class UserTestCase(TestCase):
         normalized = 'name.surname@domain.com'
 
         user = UserModel.objects.create_user(
-            username='username',
             email=email,
             password='Unreal Password #2',
         )
@@ -38,7 +55,6 @@ class UserTestCase(TestCase):
         normalized = 'name.surname@domain.com'
 
         user = UserModel.objects.create_user(
-            username='username',
             email=email,
             password='Unreal Password #3',
         )
@@ -50,7 +66,6 @@ class UserTestCase(TestCase):
         email = 'jlennon@beatles.com'
         EMAIL = email.upper()
         UserModel.objects.create_user(
-            username='john',
             email=email,
             password='Unreal Password #4 from d1g1ts t00!',
         )
