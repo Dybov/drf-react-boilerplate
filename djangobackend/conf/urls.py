@@ -18,6 +18,7 @@ from django.urls import include, path
 from django.conf import settings
 
 urlpatterns = [
+    path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
     path('i18n/', include('django.conf.urls.i18n')),
 ]
