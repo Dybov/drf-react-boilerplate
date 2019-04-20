@@ -135,3 +135,5 @@ REST_FRAMEWORK = {
 WEBPACK_STATS_DIR = os.path.dirname(BASE_DIR)
 
 AUTH_USER_MODEL = 'baseauth.BaseUser'
+
+LOGIN_REDIRECT_URL = 'index'

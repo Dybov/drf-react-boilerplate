@@ -45,3 +45,5 @@ WEBPACK_LOADER = {
             WEBPACK_STATS_DIR, 'webpack-stats.dev.json'),
     }
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
