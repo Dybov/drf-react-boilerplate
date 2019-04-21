@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(
 # Application definition
 
 INSTALLED_APPS = [
-    'baseauth',
+    'baseauth.apps.BaseauthConfig',
     'rest_framework',
     'webpack_loader',
     'django.contrib.admin',
@@ -89,7 +89,16 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGES = (
+    ('ru', 'Russian'),
+    ('en', 'English'),
+)
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
+
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
 
@@ -126,3 +135,5 @@ REST_FRAMEWORK = {
 WEBPACK_STATS_DIR = os.path.dirname(BASE_DIR)
 
 AUTH_USER_MODEL = 'baseauth.BaseUser'
+
+LOGIN_REDIRECT_URL = 'index'

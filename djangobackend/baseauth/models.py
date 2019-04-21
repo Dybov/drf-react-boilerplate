@@ -17,6 +17,38 @@ def get_username_validator():
     return UnicodeUsernameValidator() if six.PY3 else ASCIIUsernameValidator()
 
 
+class CustomUserManager(UserManager):
+    @classmethod
+    def normalize_email(cls, email):
+        normalized = super().normalize_email(email)
+        return normalized.lower()
+
+    def _create_user(self, email, password,
+                     is_staff, is_superuser, **extra_fields):
+        """
+        Creates and saves a User with the given username, email and password.
+        """
+        now = timezone.now()
+        if not email:
+            raise ValueError('The given email must be set')
+        email = self.normalize_email(email)
+        user = self.model(email=email,
+                          is_staff=is_staff, is_active=True,
+                          is_superuser=is_superuser,
+                          date_joined=now, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_user(self, email=None, password=None, **extra_fields):
+        return self._create_user(email, password, False, False,
+                                 **extra_fields)
+
+    def create_superuser(self, email, password, **extra_fields):
+        return self._create_user(email, password, True, True,
+                                 **extra_fields)
+
+
 class AbstactUser(AbstractBaseUser, PermissionsMixin):
     """
     An abstract base class implementing a fully featured User model with
@@ -35,13 +67,16 @@ class AbstactUser(AbstractBaseUser, PermissionsMixin):
  Letters, digits and @/./+/-/_ only.'
         ),
         validators=[username_validator],
-        error_messages={
-            'unique': _("A user with that username already exists."),
-        },
     )
     first_name = models.CharField(_('first name'), max_length=30)
     last_name = models.CharField(_('last name'), max_length=30)
-    email = models.EmailField(_('email address'))
+    email = models.EmailField(
+        _('email address'),
+        unique=True,
+        error_messages={
+            'unique': _("A user with that email already exists."),
+        },
+    )
     is_staff = models.BooleanField(
         _('staff status'),
         default=True,
@@ -59,11 +94,10 @@ class AbstactUser(AbstractBaseUser, PermissionsMixin):
     )
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
-    objects = UserManager()
+    objects = CustomUserManager()
 
     EMAIL_FIELD = 'email'
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
+    USERNAME_FIELD = 'email'
 
     class Meta:
         verbose_name = _('user')
@@ -71,6 +105,7 @@ class AbstactUser(AbstractBaseUser, PermissionsMixin):
         abstract = True
 
     def clean(self):
+        self.username = self.email
         super(AbstactUser, self).clean()
         self.email = self.__class__.objects.normalize_email(self.email)
 
@@ -90,6 +125,11 @@ class AbstactUser(AbstractBaseUser, PermissionsMixin):
         Sends an email to this User.
         """
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+    def save(self, *args, **kwargs):
+        if not self.username and self.email:
+            self.username = self.email
+        return super().save(*args, **kwargs)
 
 
 class BaseUser(AbstactUser):
