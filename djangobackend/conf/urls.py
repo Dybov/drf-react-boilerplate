@@ -17,7 +17,13 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
 
+from baseapi.path import ReactPath
+
+from . import views
+
+
 urlpatterns = [
+    ReactPath('', views.index, name='home'),
     path('admin/', admin.site.urls),
 ]
 

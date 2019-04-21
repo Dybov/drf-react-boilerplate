@@ -1,0 +1,39 @@
+{% load i18n static %}<!DOCTYPE html>
+{% load render_bundle webpack_static from webpack_loader %}
+<html lang="en">
+<head>
+  <meta charset='utf-8'>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{% block title %}{% endblock %}</title>
+  <meta name="description" content="{% block meta_description_content %}Andrew Dybov - back-end developer{% endblock %}">
+  <meta name="theme-color" content="#000000">
+  {% comment %}
+    manifest.json provides metadata used when your web app is added to the
+    homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
+  {% endcomment %}
+  <link rel="manifest" href="{% webpack_static 'manifest.json' %}">
+  <link rel="shortcut icon" href="{% webpack_static 'favicon.ico' %}">
+  {% block style %}{% endblock %}
+  {% block extra_style %}{% endblock %}
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+<div id='root'>
+<noscript>
+  {% block header %}{% endblock %}
+  {% block breadcrumbs %}<div class="breadcrumbs"></div>{% endblock %}
+  {% block content %}{% endblock %}
+  {% block footer %}{% endblock %}
+</noscript>
+sadsad
+</div>
+<script>
+  window.static_url = "{% static '' %}";
+</script>
+{% block react_bundle %}
+{% render_bundle 'runtime~main' 'js' %}
+{% render_bundle 'undefined' %}
+{% render_bundle 'main' %}
+{% endblock %}
+</body>
+</html>
