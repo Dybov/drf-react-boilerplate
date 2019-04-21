@@ -1,0 +1,20 @@
+# Text Editors temporary files
+*~
+*.swp
+# Nano's emergency files
+*.save
+
+# Sublime files
+*.sublime-project
+*.sublime-workspace
+
+# Server logs
+*.log
+*/logs/*
+
+# Outlines, sketches and drafts
+outline/*
+
+# Webpack stats:
+webpack-stats.dev.json
+webpack-stats.prod.json

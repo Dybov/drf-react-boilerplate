@@ -1,0 +1,12 @@
+# Python bytecode
+*.pyc
+
+# Django media files
+media/*
+
+# Temporary db (for development)
+db.sqlite3*
+
+
+# React production bundles:
+static/bundles/*
