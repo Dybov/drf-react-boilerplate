@@ -52,30 +52,50 @@ def transform_regex_to_react_router(regex_pattern):
     return regex_pattern
 
 
-def iterate_urls(urls, nodes, output_dict={}, entry_point='/'):
+def iterate_urls(
+        urls, nodes, output_dict={},
+        entry_point='/', parent_react=False, prefix=''):
     for url in urls:
         _has_urls = hasattr(url, 'url_patterns')
 
-        if url not in nodes and not _has_urls:
+        if not parent_react and url not in nodes and not _has_urls:
             continue
-
         regex_pattern = entry_point + transform_regex_to_react_router(
             url.pattern.regex.pattern)
         if _has_urls:
+            if not parent_react and url not in nodes:
+                continue
+
+            next_prefix = prefix
+            if next_prefix:
+                next_prefix += ':'
+
+            if hasattr(url, "namespace") and url.namespace:
+                next_prefix += url.namespace + ':'
+            if (
+                hasattr(url, "module") and
+                hasattr(url.module, 'app_name') and
+                url.module.app_name
+            ):
+                next_prefix += url.module.app_name
+
             iterate_urls(
                 url.url_patterns,
                 nodes,
                 output_dict,
-                entry_point=regex_pattern)
+                entry_point=regex_pattern,
+                parent_react=True,
+                prefix=next_prefix)
             continue
 
-        name = url.name
+        name = prefix + url.name
+
         output_dict[name] = regex_pattern
     return output_dict
 
 
 def build_react_pathes():
-    from personal_website.urls import urlpatterns
+    from conf.urls import urlpatterns
     nodes = ReactPath.get_react_nodes()
     output_dict = {}
     return iterate_urls(urlpatterns, nodes, output_dict)
