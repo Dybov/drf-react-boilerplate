@@ -31,9 +31,7 @@ sadsad
   window.static_url = "{% static '' %}";
 </script>
 {% block react_bundle %}
-{% render_bundle 'runtime~main' 'js' %}
-{% render_bundle 'undefined' %}
-{% render_bundle 'main' %}
+  {% include 'bundle.html' with name="main" %}
 {% endblock %}
 </body>
 </html>

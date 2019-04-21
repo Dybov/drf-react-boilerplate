@@ -1,0 +1,5 @@
+{% load render_bundle webpack_static from webpack_loader %}
+
+{% render_bundle name %}
+{% render_bundle 'vendor' %}
+{% render_bundle 'runtime~'|add:name 'js' %}
