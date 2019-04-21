@@ -136,4 +136,4 @@ WEBPACK_STATS_DIR = os.path.dirname(BASE_DIR)
 
 AUTH_USER_MODEL = 'baseauth.BaseUser'
 
-LOGIN_REDIRECT_URL = 'index'
+LOGIN_REDIRECT_URL = 'home'
