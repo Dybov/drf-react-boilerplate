@@ -31,6 +31,7 @@ urlpatterns = [
         auth_views.PasswordResetView.as_view(),
         name='admin_password_reset'
     ),
+    ReactPath('api/<version>/', include('baseapi.urls')),
     path('admin/', admin.site.urls),
     path('i18n/', include('django.conf.urls.i18n')),
 ]

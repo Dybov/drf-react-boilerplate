@@ -9,10 +9,10 @@ app_name = 'api'
 
 urlpatterns = [
     path(
-        'react-paths',
+        'react-paths/',
         views.build_react_pathes_view,
         name='react-paths',
-    )
+    ),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

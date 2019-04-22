@@ -67,8 +67,6 @@ def iterate_urls(
                 continue
 
             next_prefix = prefix
-            if next_prefix:
-                next_prefix += ':'
 
             if hasattr(url, "namespace") and url.namespace:
                 next_prefix += url.namespace + ':'
@@ -77,7 +75,7 @@ def iterate_urls(
                 hasattr(url.module, 'app_name') and
                 url.module.app_name
             ):
-                next_prefix += url.module.app_name
+                next_prefix += url.module.app_name + ':'
 
             iterate_urls(
                 url.url_patterns,
