@@ -1,5 +1,4 @@
 import { withFetching } from './fetch';
-import { getCookie } from './cookie';
 
 import {
   FetchOnComponentwWillMount,
@@ -16,8 +15,8 @@ export {
 
   willMountWithFetching,
   didMountWithFetching,
-  getCookie,
 }
 
+export * from './cookie';
 export * from './routes';
 export * from './status';

@@ -13,4 +13,4 @@ if (request.status === 200) {
   // throw Error('Bad request while getting routes')
 }
 
-export default routes
+export {routes}

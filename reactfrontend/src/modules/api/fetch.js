@@ -1,7 +1,7 @@
 import pathToRegexp from 'path-to-regexp';
 import {connect} from 'react-redux';
 
-import routes from './routes';
+import {routes} from './routes';
 import {getMapStateToProps, getMapDispatchToProps} from './mapToProps';
 
 
