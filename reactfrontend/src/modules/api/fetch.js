@@ -1,20 +1,13 @@
 import pathToRegexp from 'path-to-regexp';
 import {connect} from 'react-redux';
 
-import routes from './routes';
+import {routes} from './routes';
 import {getMapStateToProps, getMapDispatchToProps} from './mapToProps';
-
-
-import {DefaultLoading} from './components';
-
-
-const defaultFetchOptions = {
-  headers: {'Accept': 'application/json'}
-}
+import {DefaultLoading, defaultJsonOptions} from './defaults';
 
 
 export function withFetching(FetchingComponent){
-  return (api_route_name, options=defaultFetchOptions, api_version='v1', params={}) => {
+  return (api_route_name, options=defaultJsonOptions, api_version='v1', params={}) => {
     var raw_api_url = routes[api_route_name]
     var url = pathToRegexp.compile(raw_api_url)(
       {
