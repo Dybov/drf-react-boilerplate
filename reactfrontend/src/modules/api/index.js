@@ -20,3 +20,5 @@ export {
 export * from './cookie';
 export * from './routes';
 export * from './status';
+export * from './defaults';
+export * from './buildPath';
